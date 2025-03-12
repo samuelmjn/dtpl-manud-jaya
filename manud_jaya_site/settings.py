@@ -132,3 +132,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://manud-jaya.samuel.my.id',
+    'http://manud-jaya.samuel.my.id',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+# Jika Anda menggunakan CORS
+CORS_ALLOWED_ORIGINS = [
+    'https://manud-jaya.samuel.my.id',
+    'http://manud-jaya.samuel.my.id',
+]
+
+CORS_ALLOW_CREDENTIALS = True
