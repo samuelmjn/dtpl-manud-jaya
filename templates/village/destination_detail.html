@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ destination.name }} - Desa Manud Jaya{% endblock %}
+
+{% block content %}
+<!-- Destination Header -->
+<div class="destination-header">
+    <img src="{{ destination.main_image.url }}" alt="{{ destination.name }}">
+    <div class="destination-header-content">
+        <div class="container">
+            <h1 class="mb-2">{{ destination.name }}</h1>
+            <div class="destination-meta">
+                <span><i class="fas fa-map-marker-alt"></i> {{ destination.location }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Breadcrumbs -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'village:home' %}">Beranda</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ destination.name }}</li>
+                </ol>
+            </nav>
+            
+            <!-- Destination Overview -->
+            <div class="mb-5">
+                <h2 class="mb-4">Gambaran Umum</h2>
+                <p class="lead mb-4">{{ destination.short_description }}</p>
+                <div class="destination-description">
+                    {{ destination.detailed_description|linebreaks }}
+                </div>
+            </div>
+            
+            <!-- Destination Features -->
+            <div class="mb-5">
+                <h2 class="mb-4">Fitur Destinasi</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-mountain fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Keindahan Alam</h5>
+                                <p class="mb-0">Nikmati pemandangan yang menakjubkan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-hiking fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Aktivitas</h5>
+                                <p class="mb-0">Hiking, berenang, dan lainnya</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-camera fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Spot Foto</h5>
+                                <p class="mb-0">Sempurna untuk penggemar fotografi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-users fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Pemandu Lokal</h5>
+                                <p class="mb-0">Pemandu berpengalaman tersedia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Photo Gallery -->
+            {% if destination.images.all %}
+            <div class="mb-5">
+                <h2 class="mb-4">Galeri Foto</h2>
+                <div class="row">
+                    {% for image in destination.images.all %}
+                    <div class="col-md-4 mb-4">
+                        <div class="gallery-item">
+                            <img src="{{ image.image.url }}" class="img-fluid" alt="{{ image.caption|default:destination.name }}">
+                            {% if image.caption %}
+                            <div class="p-3">
+                                <p class="mb-0">{{ image.caption }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Map Section -->
+            <div class="mb-5">
+                <h2 class="mb-4">Lokasi</h2>
+                <div class="map-container">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.8172354272867!2d109.3307653!3d-0.0326127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e1d59d8cbc7f143%3A0x7a8eb53841460fc0!2sKalimantan%20Barat%2C%20Indonesia!5e0!3m2!1sen!2sus!4v1625123456789!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    <p class="mt-2 text-muted">{{ destination.location }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <!-- Booking Card -->
+            <div class="card booking-card sticky-top" style="top: 100px;">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Pesan Kunjungan</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="visitDate" class="form-label">Tanggal Kunjungan</label>
+                            <input type="date" class="form-control" id="visitDate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="visitors" class="form-label">Jumlah Pengunjung</label>
+                            <select class="form-select" id="visitors">
+                                <option value="1">1 Orang</option>
+                                <option value="2">2 Orang</option>
+                                <option value="3">3 Orang</option>
+                                <option value="4">4 Orang</option>
+                                <option value="5">5+ Orang</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="guideService">
+                                <label class="form-check-label" for="guideService">
+                                    Tambahkan Layanan Pemandu
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Total Biaya</label>
+                            <h4 id="totalPrice" class="text-primary">Rp 25.000</h4>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Pesan Sekarang</button>
+                    </form>
+                    
+                    <p class="text-muted small mt-3 mb-0">* Fitur pemesanan akan segera hadir</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Other Destinations -->
+    <div class="mt-5 pt-3">
+        <h2 class="section-title">Destinasi Lain yang Mungkin Anda Suka</h2>
+        <div class="row">
+            {% for destination in destinations|slice:":3" %}
+                {% if destination.id != destination.id %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ destination.main_image.url }}" class="card-img-top" alt="{{ destination.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ destination.name }}</h5>
+                            <p class="card-text">{{ destination.short_description|truncatechars:100 }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ destination.get_absolute_url }}" class="btn btn-outline-primary">Jelajahi</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% empty %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Pantai">
+                        <div class="card-body">
+                            <h5 class="card-title">Pantai Indah</h5>
+                            <p class="card-text">Nikmati pantai yang masih alami dengan air jernih dan pasir putih.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-outline-primary">Jelajahi</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Gunung">
+                        <div class="card-body">
+                            <h5 class="card-title">Jalur Pendakian</h5>
+                            <p class="card-text">Jelajahi jalur pendakian dengan pemandangan yang menakjubkan.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-outline-primary">Jelajahi</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Air Terjun">
+                        <div class="card-body">
+                            <h5 class="card-title">Air Terjun Tersembunyi</h5>
+                            <p class="card-text">Temukan air terjun tersembunyi di tengah hutan yang rimbun.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-outline-primary">Jelajahi</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

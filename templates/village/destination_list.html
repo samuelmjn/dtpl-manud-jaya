@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Destinasi - Desa Manud Jaya{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="mb-3">Destinasi Wisata</h1>
+                <p class="lead">Jelajahi berbagai tempat menarik di Desa Manud Jaya</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Destinations List -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            {% for destination in destinations %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 destination-card">
+                        <div class="destination-image">
+                            <img src="{{ destination.main_image.url }}" class="card-img-top" alt="{{ destination.name }}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ destination.name }}</h5>
+                            <p class="card-text text-muted mb-2"><i class="fas fa-map-marker-alt me-2"></i>{{ destination.location }}</p>
+                            <p class="card-text">{{ destination.short_description|truncatechars:120 }}</p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a href="{{ destination.get_absolute_url }}" class="btn btn-outline-primary">Lihat Detail</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <p class="mb-0">Belum ada destinasi tersedia. Silakan tambahkan melalui panel admin.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-4">Ingin Mengunjungi Desa Manud Jaya?</h2>
+        <p class="lead mb-4">Hubungi kami untuk informasi lebih lanjut atau untuk mengatur kunjungan Anda.</p>
+        <a href="#" class="btn btn-light btn-lg">Hubungi Kami</a>
+    </div>
+</section>
+{% endblock %} 

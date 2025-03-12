@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil Desa - Desa Manud Jaya{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="mb-3">Profil Desa</h1>
+                <p class="lead">Pelajari tentang sejarah, budaya, dan masyarakat Desa Manud Jaya.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Profile Content -->
+<div class="container py-5">
+    {% for profile in profiles %}
+        <div class="row mb-5 align-items-center {% cycle '' 'flex-row-reverse' %}">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                {% if profile.image %}
+                    <div class="profile-image">
+                        <img src="{{ profile.image.url }}" alt="{{ profile.title }}" class="img-fluid rounded">
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                <h2 class="mb-4">{{ profile.title }}</h2>
+                <div class="profile-content">
+                    {{ profile.content|linebreaks }}
+                </div>
+            </div>
+        </div>
+        {% if not forloop.last %}<hr class="my-5">{% endif %}
+    {% empty %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <p class="mb-0">Belum ada informasi profil desa tersedia. Silakan tambahkan melalui panel admin.</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+    <!-- Village Stats -->
+    <div class="row mt-5 pt-5">
+        <div class="col-12">
+            <h2 class="section-title">Statistik Desa</h2>
+        </div>
+        
+        <div class="col-md-3 col-6 text-center mb-4">
+            <div class="p-4 bg-light rounded">
+                <h3 class="display-4 text-primary">1250</h3>
+                <p class="text-muted">Penduduk</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 text-center mb-4">
+            <div class="p-4 bg-light rounded">
+                <h3 class="display-4 text-primary">15</h3>
+                <p class="text-muted">Destinasi</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 text-center mb-4">
+            <div class="p-4 bg-light rounded">
+                <h3 class="display-4 text-primary">1845</h3>
+                <p class="text-muted">Tahun Berdiri</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 text-center mb-4">
+            <div class="p-4 bg-light rounded">
+                <h3 class="display-4 text-primary">12</h3>
+                <p class="text-muted">Acara Tahunan</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Community Leaders Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title">Tokoh Masyarakat</h2>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="https://via.placeholder.com/150" alt="Kepala Desa" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                        <h4>Bapak Suryanto</h4>
+                        <p class="text-muted">Kepala Desa</p>
+                        <p>Memimpin desa kami sejak 2018 dengan fokus pada pembangunan berkelanjutan dan pelestarian budaya.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="https://via.placeholder.com/150" alt="Ketua PKK" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                        <h4>Ibu Mariam</h4>
+                        <p class="text-muted">Ketua PKK</p>
+                        <p>Memberdayakan perempuan di desa kami melalui program pendidikan, kerajinan, dan kewirausahaan.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="https://via.placeholder.com/150" alt="Ketua Komite Pariwisata" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                        <h4>Bapak Raden</h4>
+                        <p class="text-muted">Ketua Komite Pariwisata</p>
+                        <p>Mempromosikan keindahan alam dan warisan budaya desa kami kepada pengunjung dari seluruh dunia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-4">Ingin Tahu Lebih Banyak Tentang Desa Kami?</h2>
+        <p class="lead mb-4">Hubungi kami untuk informasi lebih lanjut atau untuk mengatur tur terpandu.</p>
+        <a href="#" class="btn btn-light btn-lg">Hubungi Kami</a>
+    </div>
+</section>
+{% endblock %} 
