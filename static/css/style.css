@@ -416,3 +416,66 @@ footer .social-icons a:hover {
 .destination-card:hover .destination-image img {
   transform: scale(1.05);
 } 
+
+/* search bar styling */
+/* Container for the search form */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+}
+
+/* Wrapper for the input and button */
+.search-form__input-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+/* Input field styling */
+.search-form__input {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: var(--border-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  outline: none;
+  margin-left: 10px;
+}
+
+.search-form__input:focus {
+  border-color: #007bff; /* Accent color – adjust as needed */
+}
+
+/* Button styling */
+.search-form__button {
+  padding: 10px 20px;
+  background-color: var(--secondary-color);; /* Accent color – adjust as needed */
+  border: 1px solid #007bff;
+  border-radius: var(--border-radius);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.search-form__button:hover {
+  background-color: #0056b3; /* Darker accent on hover */
+  border-color: #0056b3;
+}
+
+/* Accessibility: hide text visually but remain readable for screen readers */
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
