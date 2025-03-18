@@ -2,9 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from village.views import search_destinations
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('search/', search_destinations, name='search_destinations'),
     path('', include('village.urls')),
 ]
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Carousel, VillageProfile, Destination
+from django.db.models import Q
 
 
 def home(request):
@@ -43,4 +44,21 @@ def destination_list(request):
         'destinations': destinations,
         'title': 'Semua Destinasi'
     }
-    return render(request, 'village/destination_list.html', context) 
+    return render(request, 'village/destination_list.html', context)
+
+def search_destinations(request):
+    query = request.GET.get('query', '')  # retrieve search term from ?query=
+    results = []
+
+    if query:
+        results = Destination.objects.filter(
+            Q(name__icontains=query) |
+            Q(detailed_description__icontains=query) |
+            Q(location__icontains=query)
+        )
+        
+    context = {
+        'query': query,
+        'results': results
+    }
+    return render(request, 'search_results.html', context)
