@@ -1,0 +1,27 @@
+name: Push to Server
+
+on:
+  push:
+    branches:
+      - master
+      - ci-cd
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write SSH Keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VM_HOST }} > ~/.ssh/known_hosts
+
+      - name: Deploy to VM
+        run: |
+          ssh ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} '
+          cd dtpl-manud-jaya
+          git pull
+          pipenv install
+          
+          pm2 restart ecosystem.config.js
+          '
