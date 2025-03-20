@@ -423,7 +423,8 @@ footer .social-icons a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* Wrapper for the input and button */
@@ -443,7 +444,6 @@ footer .social-icons a:hover {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   outline: none;
-  margin-left: 10px;
 }
 
 .search-form__input:focus {
