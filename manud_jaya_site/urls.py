@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('search/', search_destinations, name='search_destinations'),
     path('', include('village.urls')),
+    path('news/', include('news.urls')),
 ]
 
 # Add URL patterns for serving media files during development
