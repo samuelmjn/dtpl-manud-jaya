@@ -32,7 +32,21 @@
                             <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_whatsapp object_or_url "<i class='bi bi-whatsapp'></i>" "text-light" %}</div>
                             <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_facebook object_or_url "<i class='bi bi-facebook'></i>" "text-light" %}</div>
                             <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_twitter "{{news.title}}" object_or_url "<i class='bi bi-twitter-x'></i>" "text-light" %}</div>
-                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% copy_to_clipboard object_or_url "<i class='bi bi-link-45deg'></i>" "copy-btn text-light" %}</div>
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center" onclick="popIn()">
+                                {% copy_to_clipboard object_or_url "<i class='bi bi-link-45deg'></i>" "copy-btn text-light" %}
+                                <div class="popup">
+                                    <span class="popuptext" id="myPopup">📋Copied!</span>
+                                </div>
+                            </div>
+                            <script>
+                                function popIn() {
+                                    var popup = document.getElementById("myPopup");
+                                    popup.classList.toggle("show");
+                                    setTimeout(() => {
+                                        popup.classList.toggle("show")
+                                    }, 2000)
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
