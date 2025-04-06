@@ -8,4 +8,5 @@ urlpatterns = [
     path('profile/', views.village_profile, name='village_profile'),
     path('destination/<int:destination_id>/', views.destination_detail, name='destination_detail'),
     path('destinations/', views.destination_list, name='destination_list'),
-] 
+    path('api/search/', views.search_destinations_api, name='search_destinations_api'),
+]

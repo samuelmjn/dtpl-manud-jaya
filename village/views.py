@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 from .models import Carousel, VillageProfile, Destination
 from django.db.models import Q
 
@@ -46,6 +47,7 @@ def destination_list(request):
     }
     return render(request, 'village/destination_list.html', context)
 
+
 def search_destinations(request):
     query = request.GET.get('query', '')  # retrieve search term from ?query=
     results = []
@@ -62,3 +64,18 @@ def search_destinations(request):
         'results': results
     }
     return render(request, 'search_results.html', context)
+
+
+def search_destinations_api(request):
+    query = request.GET.get('query', '')
+    destinations = Destination.objects.filter(name__icontains=query) if query else Destination.objects.all()
+    data = [
+        {
+            'name': destination.name,
+            'short_description': destination.short_description,
+            'main_image_url': destination.main_image.url,
+            'url': destination.get_absolute_url(),
+        }
+        for destination in destinations
+    ]
+    return JsonResponse({'destinations': data})

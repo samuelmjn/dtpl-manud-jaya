@@ -98,4 +98,87 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initial calculation
         calculateTotal();
     }
-}); 
+
+    // Implement search function
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+        console.log('test');
+        const query = document.getElementById('search').value;
+  
+        fetch(`/api/search/?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('destinations-container');
+                container.innerHTML = ''; // Clear existing content
+  
+                if (data.destinations.length > 0) {
+                    data.destinations.forEach(destination => {
+                        const card = `
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card h-100">
+                                    <img src="${destination.main_image_url}" class="card-img-top" alt="${destination.name}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${destination.name}</h5>
+                                        <p class="card-text">${destination.short_description}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="${destination.url}" class="btn btn-outline-primary">Jelajahi</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        container.innerHTML += card;
+                    });
+                } else {
+                    container.innerHTML = `
+                        <div class="col-12 text-center">
+                            <div class="alert alert-info">
+                                <p class="mb-0">Tidak ada destinasi yang cocok dengan pencarian Anda.</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+});
+
+function handleSearch(e) {
+    console.log('test');
+    const query = document.getElementById('search').value;
+
+    fetch(`/api/search/?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('destinations-container');
+            container.innerHTML = ''; // Clear existing content
+
+            if (data.destinations.length > 0) {
+                data.destinations.forEach(destination => {
+                    const card = `
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card h-100">
+                                <img src="${destination.main_image_url}" class="card-img-top" alt="${destination.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${destination.name}</h5>
+                                    <p class="card-text">${destination.short_description}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="${destination.url}" class="btn btn-outline-primary">Jelajahi</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            } else {
+                container.innerHTML = `
+                    <div class="col-12 text-center">
+                        <div class="alert alert-info">
+                            <p class="mb-0">Tidak ada destinasi yang cocok dengan pencarian Anda.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+};
