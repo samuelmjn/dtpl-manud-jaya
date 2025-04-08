@@ -3,6 +3,8 @@ from datetime import datetime
 from django.db import models
 from django.utils.text import slugify
 
+from manud_jaya_site.settings import BASE_URL
+
 
 class News(models.Model):
     title = models.CharField(max_length=200, null=False)
@@ -23,3 +25,6 @@ class News(models.Model):
         if not self.slug:
             self.slug = slugify(str(self.title)[:170] + "-" + str(datetime.now()))
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return BASE_URL + '/news/' + self.slug

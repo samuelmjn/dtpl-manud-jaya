@@ -29,11 +29,11 @@
                     </div>
                     <div class="pt-3 ms-2 me-3 col-md-4">
                         <div class="row column-gap-2 justify-content-end share-mobile">
-                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_whatsapp object_or_url "<i class='bi bi-whatsapp'></i>" "text-light" %}</div>
-                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_facebook object_or_url "<i class='bi bi-facebook'></i>" "text-light" %}</div>
-                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_twitter "{{news.title}}" object_or_url "<i class='bi bi-twitter-x'></i>" "text-light" %}</div>
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_whatsapp news.get_absolute_url "<i class='bi bi-whatsapp'></i>" "text-light" %}</div>
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_facebook news.get_absolute_url "<i class='bi bi-facebook'></i>" "text-light" %}</div>
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_twitter "{{news.title}}" news.get_absolute_url "<i class='bi bi-twitter-x'></i>" "text-light" %}</div>
                             <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center" onclick="popIn()">
-                                {% copy_to_clipboard object_or_url "<i class='bi bi-link-45deg'></i>" "copy-btn text-light" %}
+                                {% copy_to_clipboard news.get_absolute_url "<i class='bi bi-link-45deg'></i>" "copy-btn text-light" %}
                                 <div class="popup">
                                     <span class="popuptext" id="myPopup">📋Copied!</span>
                                 </div>
