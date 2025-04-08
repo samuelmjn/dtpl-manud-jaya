@@ -11,7 +11,7 @@ class News(models.Model):
     author = models.CharField(max_length=100, null=False)
     content = models.TextField(null=False)
     image = models.ImageField(upload_to='news/')
-    slug = models.SlugField(blank=True, unique=True)
+    slug = models.SlugField(max_length=200, blank=True, unique=True)
 
     class Meta:
         verbose_name_plural = "news"
@@ -21,5 +21,5 @@ class News(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(str(self.title) + "-" + str(datetime.now()))
+            self.slug = slugify(str(self.title)[:170] + "-" + str(datetime.now()))
         super().save(*args, **kwargs)
