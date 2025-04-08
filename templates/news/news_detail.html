@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% load social_share %}
+
+{% block title %}{{ news.title }} - Desa Manud Jaya{% endblock %}
+
+{% block content %}
+
+<div class="mt-5 container">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Breadcrumbs -->
+            <nav aria-label="breadcrumb" class="mb-2">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'village:home' %}">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'news:news_list' %}">Berita</a></li>
+                    <li class="breadcrumb-item active news-breadcrumb" aria-current="page">{{ news.title }}</li>
+                </ol>
+            </nav>
+            
+            <!-- News Content -->
+            <div class="mb-5">
+                <p class="mb-2 badge badge-primary"><strong>{{ news.category }}</strong></p>
+                <h2 class="mb-3">{{ news.title }}</h2>
+                <div class="mb-3 row align-items-center justify-content-between">
+                    <div class="col-md-6">
+                        <p class="mb-0"><strong>{{ news.author }}</strong></p>
+                        <p class="mb-0 text-secondary">{{ news.date|date:"l, d F Y | H:i T" }}</p>
+                    </div>
+                    <div class="pt-3 ms-2 me-3 col-md-4">
+                        <div class="row column-gap-2 justify-content-end share-mobile">
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_whatsapp object_or_url "<i class='bi bi-whatsapp'></i>" "text-light" %}</div>
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_facebook object_or_url "<i class='bi bi-facebook'></i>" "text-light" %}</div>
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center">{% post_to_twitter "{{news.title}}" object_or_url "<i class='bi bi-twitter-x'></i>" "text-light" %}</div>
+                            <div class="share-btn rounded-circle col-1 col-sm-3 px-1 text-center" onclick="popIn()">
+                                {% copy_to_clipboard object_or_url "<i class='bi bi-link-45deg'></i>" "copy-btn text-light" %}
+                                <div class="popup">
+                                    <span class="popuptext" id="myPopup">📋Copied!</span>
+                                </div>
+                            </div>
+                            <script>
+                                function popIn() {
+                                    var popup = document.getElementById("myPopup");
+                                    popup.classList.toggle("show");
+                                    setTimeout(() => {
+                                        popup.classList.toggle("show")
+                                    }, 2000)
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="news-image mb-4">
+                    <img src="{{ news.image.url }}" alt="{{ news.title }}" class="img-fluid rounded">
+                </div>
+                <div class="news-content">
+                    {{ news.content|linebreaks }}
+                </div>
+            </div>
+        </div>
+
+    
+    <!-- Other News -->
+<!--    <div class="mt-5 pt-3">-->
+<!--        <h2 class="section-title">Berita Lain yang Mungkin Anda Suka</h2>-->
+<!--        <div class="row">-->
+<!--            {% for news in other_news|slice:":3" %}-->
+<!--                {% if news.id != news.id %}-->
+<!--                <div class="col-md-4 mb-4">-->
+<!--                    <div class="card h-100">-->
+<!--                        <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}">-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title">{{ news.title }}</h5>-->
+<!--                            <p class="card-text">{{ news.content|truncatechars:100 }}</p>-->
+<!--                        </div>-->
+<!--                        <div class="card-footer">-->
+<!--                            <a href="{{ news.get_absolute_url }}" class="btn btn-outline-primary">Jelajahi</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                {% endif %}-->
+<!--            {% empty %}-->
+<!--                <div class="col-md-4 mb-4">-->
+<!--                    <div class="card h-100">-->
+<!--                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Pantai">-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title">Pantai Indah</h5>-->
+<!--                            <p class="card-text">Nikmati pantai yang masih alami dengan air jernih dan pasir putih.</p>-->
+<!--                        </div>-->
+<!--                        <div class="card-footer">-->
+<!--                            <a href="#" class="btn btn-outline-primary">Jelajahi</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-md-4 mb-4">-->
+<!--                    <div class="card h-100">-->
+<!--                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Gunung">-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title">Jalur Pendakian</h5>-->
+<!--                            <p class="card-text">Jelajahi jalur pendakian dengan pemandangan yang menakjubkan.</p>-->
+<!--                        </div>-->
+<!--                        <div class="card-footer">-->
+<!--                            <a href="#" class="btn btn-outline-primary">Jelajahi</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-md-4 mb-4">-->
+<!--                    <div class="card h-100">-->
+<!--                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Air Terjun">-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title">Air Terjun Tersembunyi</h5>-->
+<!--                            <p class="card-text">Temukan air terjun tersembunyi di tengah hutan yang rimbun.</p>-->
+<!--                        </div>-->
+<!--                        <div class="card-footer">-->
+<!--                            <a href="#" class="btn btn-outline-primary">Jelajahi</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+    </div>
+</div>
+{% add_copy_script %}
+{% endblock %} 
