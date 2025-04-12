@@ -17,8 +17,8 @@
                 <img src="{{ carousel.image.url }}" class="d-block w-100" alt="{{ carousel.title }}">
                 <div class="carousel-caption">
                     <h2 class="animate__animated animate__fadeInUp">{{ carousel.title }}</h2>
-                    <p class="animate__animated animate__fadeInUp animate__delay-1s">{{ carousel.description }}</p>
-                    <a href="{% url 'village:village_profile' %}" class="btn btn-primary animate__animated animate__fadeInUp animate__delay-2s">Jelajahi Lebih Lanjut</a>
+                    <p class="animate__animated animate__fadeInUp">{{ carousel.content|truncatechars:100 }}</p>
+                    <a href="{% url 'news:news_detail' carousel.slug %}" class="btn btn-primary animate__animated animate__fadeInUp">Jelajahi Lebih Lanjut</a>
                 </div>
             </div>
         {% empty %}

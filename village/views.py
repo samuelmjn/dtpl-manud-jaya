@@ -2,13 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Carousel, VillageProfile, Destination
 from django.db.models import Q
+from news.models import News
 
 
 def home(request):
-    carousels = Carousel.objects.filter(is_active=True)
+    carousels = News.objects.all()
     destinations = Destination.objects.all()
     featured_destinations = Destination.objects.filter(is_featured=True)[:6]
-    
+
     context = {
         'carousels': carousels,
         'destinations': destinations,
