@@ -102,7 +102,11 @@
                             
                             <div class="mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="{{ form.need_guide.html_name }}" id="{{ form.need_guide.id_for_label }}" {% if form.need_guide.value %}checked{% endif %}>
+                                    <input class="form-check-input" type="checkbox" 
+                                           onchange="this.value = this.checked ? 'True' : 'False'"
+                                           name="{{ form.need_guide.html_name }}" id="{{ form.need_guide.id_for_label }}" 
+                                           value="{% if form.need_guide.value %}True{% else %}False{% endif %}"
+                                           {% if form.need_guide.value %}checked{% endif %}>
                                     <label class="form-check-label" for="{{ form.need_guide.id_for_label }}">
                                         Tambahkan Layanan Pemandu (Rp 100.000)
                                     </label>

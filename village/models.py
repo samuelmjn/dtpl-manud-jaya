@@ -65,7 +65,7 @@ class Reservation(models.Model):
     phone = models.CharField("Nomor Telepon", max_length=20)
     visit_date = models.DateField("Tanggal Kunjungan", validators=[MinValueValidator(limit_value=date.today)])
     number_of_visitors = models.PositiveIntegerField("Jumlah Pengunjung", validators=[MinValueValidator(1)])
-    need_guide = models.BooleanField("Perlu Pemandu", choices=GUIDE_CHOICES, default=False)
+    need_guide = models.BooleanField("Perlu Pemandu", default=False)
     special_requests = models.TextField("Permintaan Khusus", blank=True)
     total_price = models.DecimalField("Total Biaya", max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -9,11 +9,18 @@ class ReservationForm(forms.ModelForm):
         widgets = {
             'visit_date': forms.DateInput(attrs={'type': 'date', 'min': date.today().strftime('%Y-%m-%d')}),
             'special_requests': forms.Textarea(attrs={'rows': 4}),
+            'need_guide': forms.CheckboxInput(),
         }
     
     def __init__(self, *args, **kwargs):
         self.destination = kwargs.pop('destination', None)
         super().__init__(*args, **kwargs)
+        
+    def clean_need_guide(self):
+        value = self.cleaned_data.get('need_guide')
+        if value == 'on':
+            return True
+        return value
         
     def save(self, commit=True):
         instance = super().save(commit=False)
