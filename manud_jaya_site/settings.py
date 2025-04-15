@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_social_share',
     'village',
     'news.apps.NewsConfig',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
