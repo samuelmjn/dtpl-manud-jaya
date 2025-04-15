@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.core.validators import MinValueValidator
+from datetime import date
 
 class Carousel(models.Model):
     title = models.CharField(max_length=200)
@@ -48,4 +50,44 @@ class DestinationImage(models.Model):
     caption = models.CharField(max_length=200, blank=True)
     
     def __str__(self):
-        return f"Image for {self.destination.name}" 
+        return f"Image for {self.destination.name}"
+
+
+class Reservation(models.Model):
+    GUIDE_CHOICES = (
+        (True, 'Ya'),
+        (False, 'Tidak'),
+    )
+    
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='reservations')
+    name = models.CharField("Nama Lengkap", max_length=100)
+    email = models.EmailField("Email")
+    phone = models.CharField("Nomor Telepon", max_length=20)
+    visit_date = models.DateField("Tanggal Kunjungan", validators=[MinValueValidator(limit_value=date.today)])
+    number_of_visitors = models.PositiveIntegerField("Jumlah Pengunjung", validators=[MinValueValidator(1)])
+    need_guide = models.BooleanField("Perlu Pemandu", choices=GUIDE_CHOICES, default=False)
+    special_requests = models.TextField("Permintaan Khusus", blank=True)
+    total_price = models.DecimalField("Total Biaya", max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Reservasi"
+        verbose_name_plural = "Reservasi"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Reservasi oleh {self.name} untuk {self.destination.name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.total_price:
+            # Hitung total harga jika belum diisi
+            self.total_price = self.calculate_price()
+        super().save(*args, **kwargs)
+    
+    def calculate_price(self):
+        # Harga dasar per pengunjung
+        base_price = 25000
+        # Tambahan untuk pemandu
+        guide_price = 100000 if self.need_guide else 0
+        
+        return (base_price * self.number_of_visitors) + guide_price 

@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from .models import Carousel, VillageProfile, Destination
+from .models import Carousel, VillageProfile, Destination, Reservation
 from django.db.models import Q
 from news.models import News
+from django.contrib import messages
+from .forms import ReservationForm
 
 
 def home(request):
@@ -80,3 +82,31 @@ def search_destinations_api(request):
         for destination in destinations
     ]
     return JsonResponse({'destinations': data})
+
+
+def reservation_create(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+    
+    if request.method == 'POST':
+        form = ReservationForm(request.POST, destination=destination)
+        if form.is_valid():
+            reservation = form.save()
+            messages.success(request, 'Reservasi Anda berhasil dibuat. Terima kasih!')
+            return redirect('village:reservation_success', reservation_id=reservation.id)
+    else:
+        form = ReservationForm(destination=destination)
+    
+    context = {
+        'form': form,
+        'destination': destination,
+    }
+    return render(request, 'village/reservation_form.html', context)
+
+
+def reservation_success(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+    
+    context = {
+        'reservation': reservation,
+    }
+    return render(request, 'village/reservation_success.html', context)

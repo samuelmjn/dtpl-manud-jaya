@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}Pesan Kunjungan - {{ destination.name }} - Desa Manud Jaya{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="mb-3">Pesan Kunjungan</h1>
+                <p class="lead">{{ destination.name }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reservation Form -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="card-title mb-4">Formulir Reservasi</h2>
+                        <p class="text-muted mb-4">Silakan isi formulir di bawah ini untuk memesan kunjungan Anda ke {{ destination.name }}</p>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.non_field_errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                                    <input type="text" name="{{ form.name.html_name }}" id="{{ form.name.id_for_label }}" class="form-control" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} required>
+                                    {% if form.name.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                                    <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" class="form-control" {% if form.email.value %}value="{{ form.email.value }}"{% endif %} required>
+                                    {% if form.email.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.email.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }}</label>
+                                <input type="text" name="{{ form.phone.html_name }}" id="{{ form.phone.id_for_label }}" class="form-control" {% if form.phone.value %}value="{{ form.phone.value }}"{% endif %} required>
+                                {% if form.phone.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.phone.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.visit_date.id_for_label }}" class="form-label">{{ form.visit_date.label }}</label>
+                                    <input type="date" name="{{ form.visit_date.html_name }}" id="{{ form.visit_date.id_for_label }}" class="form-control" min="{{ form.visit_date.field.widget.attrs.min }}" {% if form.visit_date.value %}value="{{ form.visit_date.value|date:'Y-m-d' }}"{% endif %} required>
+                                    {% if form.visit_date.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.visit_date.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.number_of_visitors.id_for_label }}" class="form-label">{{ form.number_of_visitors.label }}</label>
+                                    <input type="number" name="{{ form.number_of_visitors.html_name }}" id="{{ form.number_of_visitors.id_for_label }}" class="form-control" min="1" {% if form.number_of_visitors.value %}value="{{ form.number_of_visitors.value }}"{% else %}value="1"{% endif %} required>
+                                    {% if form.number_of_visitors.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.number_of_visitors.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="{{ form.need_guide.html_name }}" id="{{ form.need_guide.id_for_label }}" {% if form.need_guide.value %}checked{% endif %}>
+                                    <label class="form-check-label" for="{{ form.need_guide.id_for_label }}">
+                                        Tambahkan Layanan Pemandu (Rp 100.000)
+                                    </label>
+                                </div>
+                                {% if form.need_guide.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.need_guide.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.special_requests.id_for_label }}" class="form-label">{{ form.special_requests.label }}</label>
+                                <textarea name="{{ form.special_requests.html_name }}" id="{{ form.special_requests.id_for_label }}" class="form-control" rows="4">{% if form.special_requests.value %}{{ form.special_requests.value }}{% endif %}</textarea>
+                                {% if form.special_requests.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.special_requests.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">Tambahkan informasi khusus jika ada (opsional)</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5>Rincian Biaya</h5>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Biaya masuk (Rp 25.000 × <span id="visitor-count">1</span>)</span>
+                                            <span>Rp <span id="entrance-fee">25.000</span></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span>Layanan pemandu</span>
+                                            <span>Rp <span id="guide-fee">0</span></span>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between fw-bold">
+                                            <span>Total</span>
+                                            <span class="text-primary">Rp <span id="total-price">25.000</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Kirim Reservasi</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const visitorInput = document.getElementById('{{ form.number_of_visitors.id_for_label }}');
+        const guideCheck = document.getElementById('{{ form.need_guide.id_for_label }}');
+        const visitorCount = document.getElementById('visitor-count');
+        const entranceFee = document.getElementById('entrance-fee');
+        const guideFee = document.getElementById('guide-fee');
+        const totalPrice = document.getElementById('total-price');
+        
+        function updatePrice() {
+            const visitors = parseInt(visitorInput.value) || 1;
+            const withGuide = guideCheck.checked;
+            
+            visitorCount.textContent = visitors;
+            
+            const basePrice = 25000 * visitors;
+            const guidePrice = withGuide ? 100000 : 0;
+            
+            entranceFee.textContent = basePrice.toLocaleString('id-ID');
+            guideFee.textContent = guidePrice.toLocaleString('id-ID');
+            totalPrice.textContent = (basePrice + guidePrice).toLocaleString('id-ID');
+        }
+        
+        visitorInput.addEventListener('change', updatePrice);
+        visitorInput.addEventListener('keyup', updatePrice);
+        guideCheck.addEventListener('change', updatePrice);
+        
+        // Inisialisasi
+        updatePrice();
+    });
+</script>
+{% endblock %} 
