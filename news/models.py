@@ -16,7 +16,8 @@ class News(models.Model):
     slug = models.SlugField(max_length=200, blank=True, unique=True)
 
     class Meta:
-        verbose_name_plural = "news"
+        verbose_name = "Berita"
+        verbose_name_plural = "Berita"
 
     def __str__(self):
         return self.title

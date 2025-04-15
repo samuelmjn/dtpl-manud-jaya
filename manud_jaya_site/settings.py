@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_social_share',
     'village',
-    'news'
+    'news.apps.NewsConfig',
 ]
 
 MIDDLEWARE = [
