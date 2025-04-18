@@ -23,8 +23,7 @@ class News(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(str(self.title)[:170] + "-" + str(datetime.now()))
+        self.slug = slugify(str(self.title)[:170] + "-" + str(datetime.now()))
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
