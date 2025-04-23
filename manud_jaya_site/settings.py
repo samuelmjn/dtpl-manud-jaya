@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_social_share',
     'village',
     'news.apps.NewsConfig',
+    'review',
     'django.contrib.humanize',
 ]
 
