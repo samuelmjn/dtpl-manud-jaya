@@ -7,7 +7,7 @@ from uuid import uuid4
 class Review(models.Model):
     token = models.CharField(max_length=255, unique=True, blank=True)
     rating = models.IntegerField(null=True, blank=True)
-    comment = models.TextField(null=True, blank=True)
+    comment = models.TextField(blank=True)
     is_used = models.BooleanField(default=False)
     expired_at = models.DateTimeField(null=True, blank=True)
     destination = models.ForeignKey('village.Destination', on_delete=models.CASCADE)

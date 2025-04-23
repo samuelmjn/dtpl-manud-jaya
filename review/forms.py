@@ -8,8 +8,8 @@ class ReviewForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Make the rating field required
         self.fields['rating'].required = True
+
         # We're not using the widget's rendering, but set choices for validation
         self.fields['rating'].choices = [
             (1, '1 Star'),
@@ -18,7 +18,7 @@ class ReviewForm(forms.ModelForm):
             (4, '4 Stars'),
             (5, '5 Stars')
         ]
-        # Customize the comment field
+
         self.fields['comment'].widget = forms.Textarea(
             attrs={'class': 'form-control', 'cols': 50, 'rows': 5}
         )
