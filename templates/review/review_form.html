@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}Ulasan Kunjungan - {{ review.destination.name }} - Desa Manud Jaya{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="mb-3">Ulasan Kunjungan</h1>
+                <p class="lead">{{ review.destination.name }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review Form -->
+<section class="py-1 pb-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="card-title mb-4">Formulir Ulasan</h2>
+                        <p class="text-muted mb-4">Silakan isi formulir di bawah ini untuk memberikan ulasan Anda terkait {{ review.destination.name }}</p>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.non_field_errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label for="animated-stars" class="form-label">Penilaian</label>
+                                <div class="rating-card">
+                                    <div class="star-rating" id="animated-stars">
+                                        <input type="radio" id="star5" name="{{ form.rating.html_name }}" value="5">
+                                        <label for="star5" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star4" name="{{ form.rating.html_name }}" value="4">
+                                        <label for="star4" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star3" name="{{ form.rating.html_name }}" value="3">
+                                        <label for="star3" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star2" name="{{ form.rating.html_name }}" value="2">
+                                        <label for="star2" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star1" name="{{ form.rating.html_name }}" value="1" >
+                                        <label for="star1" class="bi bi-star-fill"></label>
+                                    </div>
+                                    <div id="star-text" class="text-muted"></div>
+                                </div>
+                                {% if form.rating.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.rating.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.comment.id_for_label }}" class="form-label">Komentar</label>
+                                <textarea name="{{ form.comment.html_name }}" id="{{ form.comment.id_for_label }}" class="form-control" rows="4">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
+                                {% if form.comment.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.comment.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Kirim Ulasan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const starMap = ['Sangat Buruk', 'Buruk', 'Biasa', 'Baik', 'Sangat Baik']
+    let clicked = false
+    let prevStar = ''
+    let starText = document.querySelector('#star-text')
+
+    const ratingContainer = document.querySelector('.star-rating:not(.readonly)')
+
+    // Function to handle hover effects
+    function setupHoverEffects() {
+        // Add mouseenter/mouseleave for the container
+        ratingContainer.onmouseenter = (event) => {
+            event.target.classList.add('hovering');
+        };
+
+        ratingContainer.onmouseleave = (event) => {
+            event.target.classList.remove('hovering');
+            document.querySelectorAll('.star-rating label').forEach(label => {
+                label.classList.remove('hovered');
+            });
+
+            // Restore text description
+            if (!clicked) {
+                starText.innerHTML = prevStar;
+            }
+        };
+    }
+
+    document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
+        star.onclick = (event) => {
+            event.target.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 200);
+
+            let starValue = document.querySelector('#'+event.target.htmlFor).value
+            starText.innerHTML = starMap[starValue-1]
+            prevStar = starMap[starValue-1]
+            clicked = true
+        };
+
+        star.onmouseover = (event) => {
+            let starValue = document.querySelector('#'+event.target.htmlFor).value
+            starText.innerHTML = starMap[starValue-1]
+            clicked = false
+
+            // Clear all previous hover states
+            document.querySelectorAll('.star-rating label').forEach(label => {
+                label.classList.remove('hovered');
+            });
+
+            // Add hover state to current and subsequent labels
+            let current = event.target;
+            while (current) {
+                current.classList.add('hovered');
+                current = current.nextElementSibling;
+                // Skip input elements
+                if (current && current.tagName === 'INPUT') {
+                    current = current.nextElementSibling;
+                }
+            }
+        };
+
+        star.onmouseleave = () => {
+            if (!clicked) {
+                starText.innerHTML = prevStar
+            }
+        };
+    });
+
+    // Set up hover effects
+    setupHoverEffects();
+</script>
+{% endblock %} 

@@ -310,6 +310,46 @@ a:hover {
   user-select: none;
 }
 
+/* Review Stars */
+.rating-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.star-rating {
+  direction: rtl;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ddd;
+  font-size: 24px;
+  padding: 0 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Base style for checked state */
+.star-rating:not(.hovering) input:checked ~ label {
+  color: #ffc107;
+}
+
+/* Hovering state - overrides checked state */
+.star-rating.hovering label {
+  color: #ddd; /* Reset all to default */
+}
+
+.star-rating.hovering label.hovered,
+.star-rating.hovering label.hovered ~ label {
+  color: #ffc107;
+}
+
 /* The actual popup */
 .popup .popuptext {
   font-size: 12px;

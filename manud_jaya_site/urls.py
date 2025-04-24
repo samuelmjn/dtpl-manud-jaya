@@ -14,6 +14,7 @@ urlpatterns = [
     path('search/', search_destinations, name='search_destinations'),
     path('', include('village.urls')),
     path('news/', include('news.urls')),
+    path('review/', include('review.urls')),
 ]
 
 # Add URL patterns for serving media files during development
