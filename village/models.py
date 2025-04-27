@@ -31,6 +31,11 @@ class Destination(models.Model):
     name = models.CharField(max_length=200)
     short_description = models.TextField(max_length=500)
     detailed_description = models.TextField()
+
+    destination_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    operational_hour = models.CharField(max_length=100, null=True, blank=True)
+    category = models.CharField(max_length=100, null=True, blank=True)
+
     main_image = models.ImageField(upload_to='destinations/')
     location = models.CharField(max_length=200)
     is_featured = models.BooleanField(default=False)

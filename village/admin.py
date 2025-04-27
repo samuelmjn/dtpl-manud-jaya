@@ -20,7 +20,7 @@ class VillageProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Destination)
 class DestinationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'is_featured', 'created_at')
+    list_display = ('name', 'location', 'destination_price', 'operational_hour', 'category', 'is_featured', 'created_at')
     list_filter = ('is_featured',)
     search_fields = ('name', 'location')
     inlines = [DestinationImageInline]
