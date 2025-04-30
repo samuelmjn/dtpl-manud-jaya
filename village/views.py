@@ -5,7 +5,7 @@ from django.db.models import Q
 from news.models import News
 from django.contrib import messages
 from .forms import ReservationForm
-from django.db.models import Avg, Count
+from django.db.models import Avg, Sum, Count
 
 def home(request):
     carousels = News.objects.all()
@@ -29,23 +29,12 @@ def village_profile(request):
     }
     return render(request, 'village/profile.html', context)
 
-
-#def destination_detail(request, destination_id):
-#    destination = get_object_or_404(Destination, id=destination_id)
-#    destinations = Destination.objects.exclude(id=destination_id)[:3]
-#    
-#    context = {
-#        'destination': destination,
-#        'destinations': destinations,
-#    }
-#    
-#    return render(request, 'village/destination_detail.html', context)
-
+""""
 def destination_detail(request, destination_id):
     # Get destination with rating and visitor_count annotations
     destination = Destination.objects.annotate(
         rating=Avg('review__rating'),
-        visitor_count=Count('review')
+        visitor_count=Sum('reservations__number_of_visitors')
     ).get(id=destination_id)
 
     # Other destinations (e.g. for "related" or "you may also like")
@@ -57,7 +46,32 @@ def destination_detail(request, destination_id):
     }
 
     return render(request, 'village/destination_detail.html', context)
+"""
 
+def destination_detail(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+
+    # Hitung rating
+    rating = destination.reviews.aggregate(
+        rating=Avg('rating')
+    )['rating']
+
+    # Hitung total pengunjung dari semua reservasi destinasi ini
+    visitor_count = destination.reservations.aggregate(
+        total_visitors=Sum('number_of_visitors')
+    )['total_visitors']
+
+    destinations = Destination.objects.exclude(id=destination_id)[:3]
+    
+    context = {
+        'destination': destination,
+        'rating': rating,
+        'visitor_count': visitor_count,
+        'destinations': destinations,
+    }
+    
+    return render(request, 'village/destination_detail.html', context)
+    
 def destination_list(request):
     destinations = Destination.objects.all()
     
