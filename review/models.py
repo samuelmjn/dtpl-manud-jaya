@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from django.db import models
 from manud_jaya_site.settings import BASE_URL
 from uuid import uuid4
-
+from village.models import Destination
 
 class Review(models.Model):
     token = models.CharField(max_length=255, unique=True, blank=True)
@@ -10,7 +10,7 @@ class Review(models.Model):
     comment = models.TextField(blank=True)
     is_used = models.BooleanField(default=False)
     expired_at = models.DateTimeField(null=True, blank=True)
-    destination = models.ForeignKey('village.Destination', on_delete=models.CASCADE)
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='reviews')
 
     class Meta:
         verbose_name = "Ulasan"
