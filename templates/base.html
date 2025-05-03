@@ -44,9 +44,11 @@
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'village:home' %}">Beranda</a>
                     </li>
+                    <!-- 
                     <li class="nav-item">
                         <a class="nav-link" href="#">Kontak</a>
                     </li>
+                    -->
                     <li class="nav-item">
                         <a class="nav-link {% if 'destinations' in request.path %}active{% endif %}" href="{% url 'village:destination_list' %}">Destinasi</a>
                     </li>
@@ -87,7 +89,7 @@
                         <li><a href="{% url 'village:village_profile' %}">Profil Desa</a></li>
                         <li><a href="#">Destinasi</a></li>
                         <li><a href="#">Galeri</a></li>
-                        <li><a href="#">Kontak</a></li>
+                       <!-- <li><a href="#">Kontak</a></li> -->
                     </ul>
                 </div>
                
